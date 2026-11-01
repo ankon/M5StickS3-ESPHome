@@ -8,14 +8,17 @@ static const char *const TAG = "m5sticks3_display";
 
 void M5StickS3Display::setup() {
   auto cfg = M5.config();
-  cfg.internal_imu = false;   // ESPHome's motion component owns the BMI270
-  cfg.internal_rtc = false;
-  cfg.external_imu = false;
-  cfg.pmic_enable  = false;    // our on_boot lambda already did the PMIC
-
   cfg.serial_baudrate = 115200;
   cfg.clear_display = false;
   cfg.output_power = true;
+
+  cfg.internal_imu    = false;    // the critical one: stop polling the BMI270
+  cfg.internal_rtc    = false;
+  cfg.external_imu    = false;
+  cfg.external_rtc    = false;
+  cfg.internal_mic    = false;    // nothing on this project uses these,
+  cfg.internal_spk    = false;    // but disabling avoids surprise bus touching
+  cfg.pmic_button     = false;
 
   M5.begin(cfg);
   delay(150);
