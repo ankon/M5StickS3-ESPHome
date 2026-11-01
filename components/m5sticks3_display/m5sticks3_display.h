@@ -14,17 +14,15 @@ class M5StickS3Display : public display::DisplayBuffer {
   void draw_absolute_pixel_internal(int x, int y, Color color) override;
   int get_width_internal() override;
   int get_height_internal() override;
-  float get_setup_priority() const override { return setup_priority::PROCESSOR; }
+  float get_setup_priority() const override {
+    // 901: before i2c(900), after on_boot(1000)
+    return esphome::setup_priority::BUS + 1;
+  }
   void dump_config() override;
 
   display::DisplayType get_display_type() override {
     return display::DisplayType::DISPLAY_TYPE_COLOR;
   }
-
-  float get_setup_priority() const override {
-    // 901: before i2c(900), after on_boot(1000)
-    return esphome::setup_priority::BUS + 1;
-  } 
 
  protected:
   bool initialized_{false};
