@@ -21,6 +21,11 @@ class M5StickS3Display : public display::DisplayBuffer {
     return display::DisplayType::DISPLAY_TYPE_COLOR;
   }
 
+  float get_setup_priority() const override {
+    // 901: before i2c(900), after on_boot(1000)
+    return esphome::setup_priority::BUS + 1;
+  } 
+
  protected:
   bool initialized_{false};
   M5Canvas canvas_{&M5.Display};
