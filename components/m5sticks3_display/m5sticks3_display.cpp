@@ -8,6 +8,10 @@ static const char *const TAG = "m5sticks3_display";
 
 void M5StickS3Display::setup() {
   auto cfg = M5.config();
+  cfg.internal_imu = false;   // ESPHome's motion component owns the BMI270
+  cfg.internal_rtc = false;
+  cfg.external_imu = false;
+  cfg.pmic_enable  = false;    // our on_boot lambda already did the PMIC
 
   cfg.serial_baudrate = 115200;
   cfg.clear_display = false;
