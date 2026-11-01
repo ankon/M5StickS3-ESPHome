@@ -6,6 +6,8 @@ namespace m5sticks3_display {
 
 static const char *const TAG = "m5sticks3_display";
 
+float get_setup_priority() const override { return esphome::setup_priority::BUS + 1; }  // 901: before i2c(900), after on_boot(1000)
+
 void M5StickS3Display::setup() {
   M5.Display.begin();
   delay(120);
